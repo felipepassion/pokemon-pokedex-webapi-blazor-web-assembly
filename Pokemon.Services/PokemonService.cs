@@ -48,8 +48,6 @@
             return evolutions;
         }
 
-
-
         public async Task<List<PokemonListingItemResponse>> GetPokemons(int count = 10)
         {
             var response = await _client.GetAsync($"pokemon?limit={count}");
