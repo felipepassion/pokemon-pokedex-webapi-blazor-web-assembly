@@ -3,10 +3,10 @@ using Pokemon.Services;
 
 namespace Pokemon.Tests
 {
-    public class UnitTest1
+    public class PokemonServiceTests
     {
         PokemonService _service;
-        public UnitTest1()
+        public PokemonServiceTests()
         {
             _service = new PokemonService();
         }

@@ -2,7 +2,6 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
     using Pokemon.Application.DTO;
     using System;
     using System.Collections.Generic;

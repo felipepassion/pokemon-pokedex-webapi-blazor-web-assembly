@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Pokemon.Application.DTO
+﻿namespace Pokemon.Application.DTO
 {
     public class PokemonDTO
     {
@@ -10,8 +8,7 @@ namespace Pokemon.Application.DTO
         public int Weight { get; set; }
         public List<PokemonTypeDTO> Types { get; set; }
         public SpiecesDTO Spieces { get; set; }
-        [JsonProperty("evolution_chain")]
-        public PokemonEvolutionChainLinkResponseDTO EvolutionChain { get; set; }
+        public PokemonEvolutionChainLinkResponseDTO Evolution_Chain { get; set; }
         public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{Id}.png";
     }
 
