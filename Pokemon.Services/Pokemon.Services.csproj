@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pokemon.Application.DTO\Pokemon.Application.DTO.csproj" />
+    <ProjectReference Include="..\Pokemon.Data\Pokemon.Data.csproj" />
   </ItemGroup>
 
 </Project>
