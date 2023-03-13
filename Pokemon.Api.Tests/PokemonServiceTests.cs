@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Pokemon.Services;
 
 namespace Pokemon.Tests
 {
@@ -8,14 +7,14 @@ namespace Pokemon.Tests
         [Fact]
         public async Task GetTotalPokemons()
         {
-            var total = await PokemonService.TotalPokemonsCountAsync();
+            var total = await PokemonService.GetTotalPokemonsCountAsync();
             (total > 0).Should().Be(true);
         }
 
         [Fact]
         public async Task GetAllPokemons()
         {
-            var total = await PokemonService.TotalPokemonsCountAsync();
+            var total = await PokemonService.GetTotalPokemonsCountAsync();
             var pokemons = await PokemonService.GetAllPokemonsAsync();
             pokemons.Count.Should().Be(total);
             pokemons.All(x => x.Name != null && x.Url != null).Should().Be(true);
@@ -41,6 +40,7 @@ namespace Pokemon.Tests
             randomPokemon.Name.Should().NotBe(null);
 
             var evolutions = await PokemonService.GetPokemonEvolutionsAsync(randomPokemon.Id.ToString());
+            (evolutions.Count > 0).Should().Be(true);
         }
     }
 }

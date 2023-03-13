@@ -1,31 +1,31 @@
-﻿namespace Pokemon.Services
-{
-    using Microsoft.Extensions.DependencyInjection;
-    using Newtonsoft.Json;
-    using Pokemon.Application.DTO;
-    using Pokemon.Data;
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Net.Http.Json;
-    using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Pokemon.Application.DTO;
+using Pokemon.Data;
+using System.Net.Http.Json;
 
+namespace Pokemon.Services
+{
     public interface IPokemonService
     {
-        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId);
-        Task<List<PokemonListingItemResponse>> GetAllPokemonsAsync(int? limit = null);
+        Task<int> GetTotalPokemonsCountAsync();
         Task<PokemonDTO> SearchPokemonAsync(string pokemonName);
-        Task<List<EvolutionDTO>> GetPokemonEvolutionsAsync(string pokemonName);
         Task<PokemonListingResponse> GetPokemonsAsync(int count = 10);
-        Task<EvolutionSpeciesResponseDTO?> GetPokemonSpieceAsync(string pokemonName);
         Task<List<PokemonDTO>> GetRandomPokemonsAsync(int count = 10);
-        Task<int> TotalPokemonsCountAsync();
+        Task<List<EvolutionDTO>> GetPokemonEvolutionsAsync(string pokemonName);
+        Task<EvolutionSpeciesResponseDTO?> GetPokemonSpieceAsync(string pokemonName);
+        Task<List<PokemonListingItemResponse>> GetAllPokemonsAsync(int? limit = null);
+        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true);
+        Task<PokemonMasterDTO> RegisterMasterPokemon(PokemonMasterDTO master);
+        Task<PokemonMasterDTO> GetPokemonMaster(string name);
+        Task<PokemonMasterDTO> GetPokemonMasterById(int id);
+        Task<List<PokemonMasterDTO>> GetAllPokemonMasters();
     }
 
     public class PokemonService : IPokemonService
     {
-        private readonly IPokemonDatabase _pokemonDatabase;
-        HttpClient _client;
+        readonly HttpClient _client;
+        readonly IPokemonDatabase _pokemonDatabase;
+
         public PokemonService(IPokemonDatabase pokemonDatabase, HttpClient client)
         {
             this._pokemonDatabase = pokemonDatabase;
@@ -50,8 +50,7 @@
                 {
                     evolutions.Add(new EvolutionDTO
                     {
-                        Name = evolutionChain.Species.Name,
-                        Level = evolutionChain.Evolution_Details?.FirstOrDefault()?.MinLevel
+                        Name = evolutionChain.Species.Name
                     });
                 }
                 evolutionChain = evolutionChain.Evolves_To?.FirstOrDefault();
@@ -64,7 +63,7 @@
         {
             try
             {
-                var pokemon = await SearchPokemonAsync(pokemonName);
+                var pokemon = await _client.GetFromJsonAsync<PokemonDTO>($"pokemon/{pokemonName}/");
                 var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>(pokemon.Species.Url);
                 if (speciesResponse is null) throw new Exception($"Espécie do Pokemon {pokemonName} não encontrada");
                 return speciesResponse;
@@ -77,15 +76,14 @@
 
         public async Task<PokemonDTO> SearchPokemonAsync(string pokemonName)
         {
-            var httpClient = new HttpClient();
-
             // Obtemos as informações básicas do Pokémon
-            var pokemonResponse = await httpClient.GetFromJsonAsync<PokemonDTO>($"https://pokeapi.co/api/v2/pokemon/{pokemonName}/");
+            var pokemonResponse = await _client.GetFromJsonAsync<PokemonDTO>($"pokemon/{pokemonName}/");
 
             if (pokemonResponse is null) throw new Exception($"Pokemon {pokemonName} não encontrado");
 
             var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>(pokemonResponse.Species.Url);
             pokemonResponse.Capture_Rate = speciesResponse.Capture_Rate;
+            pokemonResponse.Evolutions = await GetPokemonEvolutionsAsync(pokemonName);
             return pokemonResponse;
         }
 
@@ -105,8 +103,7 @@
             {
                 evolutions.Add(new EvolutionDTO
                 {
-                    Name = evolution.Species.Name,
-                    Level = evolution.Evolution_Details?[0]?.MinLevel
+                    Name = evolution.Species.Name 
                 });
                 ExtractEvolutions(evolution, evolutions);
             }
@@ -114,7 +111,7 @@
 
         public async Task<List<PokemonDTO>> GetRandomPokemonsAsync(int count = 10)
         {
-            var totalPokemonsCount = await TotalPokemonsCountAsync();
+            var totalPokemonsCount = await GetTotalPokemonsCountAsync();
             var allPokemon = await GetAllPokemonsAsync(totalPokemonsCount);
             var random = new Random();
             var result = new List<PokemonDTO>();
@@ -157,14 +154,17 @@
             return allPokemon;
         }
 
-        public async Task<int> TotalPokemonsCountAsync() => (await GetPokemonsAsync(1)).Count;
+        public async Task<int> GetTotalPokemonsCountAsync() => (await GetPokemonsAsync(1)).Count;
 
-        public async Task<PokemonDTO> CapturePokemonAsync(string name, int masterId)
+        public async Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true)
         {
+            var existingMaster = await GetPokemonMasterById(masterId);
+            if (existingMaster is null) throw new Exception($"Mestre pokemon não encontrado com o id '{masterId}'");
+
             var pokemon = await SearchPokemonAsync(name);
 
             // Verifica se o Pokémon foi capturado com base na taxa de captura aleatória
-            if (TryCapturePokemon(pokemon, out float rate))
+            if (forceCapture || TryCapturePokemon(pokemon, out float rate))
             {
                 // Adiciona o Pokémon à tabela de capturados no banco de dados
 
@@ -178,11 +178,32 @@
             }
         }
 
+        public async Task<PokemonMasterDTO> RegisterMasterPokemon(PokemonMasterDTO master)
+        {
+            return await this._pokemonDatabase.SaveMasterPokemonAsync(master);
+        }
+
+
         public bool TryCapturePokemon(PokemonDTO pokemon, out float rate)
         {
             var random = new Random();
             rate = random.Next(256);
             return rate <= pokemon.Capture_Rate;
+        }
+
+        public async Task<PokemonMasterDTO> GetPokemonMaster(string name)
+        {
+            return await _pokemonDatabase.SearchMasterPokemonByNameAsync(name);
+        }
+
+        public async Task<PokemonMasterDTO> GetPokemonMasterById(int id)
+        {
+            return await _pokemonDatabase.SearchMasterPokemonByIdAsync(id);
+        }
+
+        public async Task<List<PokemonMasterDTO>> GetAllPokemonMasters()
+        {
+            return await _pokemonDatabase.GetAllPokemonMastersAsync();
         }
     }
 }

@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Pokemon.Data;
+using Pokemon.Services;
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
-using Pokemon.Data;
-using Pokemon.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Pokemon.Tests
 {
     public class BaseTests
     {
         protected IPokemonService PokemonService { get; private set; }
+
         protected IServiceProvider ServiceProvider { get; private set; }
 
         protected IPokemonDatabase PokemonDatabase { get; private set; }

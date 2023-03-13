@@ -4,7 +4,7 @@
     {
         public PokemonDTO()
         {
-            
+
         }
         public PokemonDTO(int id, string name, int captureRate)
         {
@@ -22,6 +22,13 @@
         public PokemonEvolutionChainLinkResponseDTO Evolution_Chain { get; set; }
         public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{Id}.png";
         public float Capture_Rate { get; set; }
+        public SpritesDTO Sprites { get; set; }
+        public List<EvolutionDTO> Evolutions { get; set; }
+    }
+
+    public class SpritesDTO
+    {
+        public string Front_Default { get; set; }
     }
 
     public class SpeciesDTO

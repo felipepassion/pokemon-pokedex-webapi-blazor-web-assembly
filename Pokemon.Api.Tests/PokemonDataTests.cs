@@ -45,10 +45,10 @@ namespace Pokemon.Tests
             var randomPokemon = (await this.PokemonService.GetRandomPokemonsAsync(1)).FirstOrDefault();
             await this.PokemonDatabase.SaveCapturedPokemonAsync(randomPokemon, masterId);
 
-            //var existingCaptured = (await this.PokemonDatabase.GetAllCapturedPokemonsAsync(masterId))
-            //    .FirstOrDefault(x => x.Name == randomPokemon.Name);
-            //existingCaptured.Should().NotBeNull();
-            //existingCaptured.Name.Should().Be(randomPokemon.Name);
+            var existingCaptured = (await this.PokemonDatabase.GetAllCapturedPokemonsAsync(masterId))
+                .FirstOrDefault(x => x.Name == randomPokemon.Name);
+            existingCaptured.Should().NotBeNull();
+            existingCaptured.Name.Should().Be(randomPokemon.Name);
         }
     }
 }

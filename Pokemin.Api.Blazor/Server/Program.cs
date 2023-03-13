@@ -1,31 +1,26 @@
-using Microsoft.AspNetCore.ResponseCompression;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Options;
+using Pokemin.Api.Blazor.Server.HttpClient;
+using Pokemin.Api.Blazor.Server.Middlewares;
+using Pokemon.Data;
+using Pokemon.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IConfigureOptions<HttpClientFactoryOptions>>
+        (new ConfigureBaseUrlOptions(builder.Configuration["PokeApiUrl"]));
 
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IPokemonService, PokemonService>();
+builder.Services.AddScoped<IPokemonDatabase, PokemonDatabase>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 var app = builder.Build();
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-{
-    //options.SerializerSettings.Converters.Add(new StringEnumConverter());
-    // Use the default property (Pascal) casing
-    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-    var settings = options.SerializerSettings;
-    settings.DateFormatString = "yyyy-MM-ddTHH:mm:ss";
-    settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-    settings.MissingMemberHandling = MissingMemberHandling.Ignore;
-    settings.NullValueHandling = NullValueHandling.Ignore;
-    settings.DefaultValueHandling = DefaultValueHandling.Ignore;
-    settings.Formatting = Formatting.Indented;
-    settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-    options.AllowInputFormatterExceptionMessages = false;
-    //settings.Converters.Add(new TiimeOnlyJsonConverter());
-});
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,7 +40,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
