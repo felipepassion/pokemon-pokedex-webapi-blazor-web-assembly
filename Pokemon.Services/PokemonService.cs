@@ -1,13 +1,12 @@
 ﻿namespace Pokemon.Api.Services
 {
+    using Newtonsoft.Json;
+    using Pokemon.Application.DTO;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Http.Json;
-    using System.Security.Claims;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
-    using Pokemon.Application.DTO;
 
     public class PokemonService
     {
@@ -47,6 +46,17 @@
 
             return evolutions;
         }
+
+        public async Task<PokemonDTO> GetPokemon(string pokemonName)
+        {
+            var httpClient = new HttpClient();
+
+            // Obtemos as informações básicas do Pokémon
+            var pokemonResponse = await httpClient.GetFromJsonAsync<PokemonDTO>($"https://pokeapi.co/api/v2/pokemon/{pokemonName}/");
+
+            return pokemonResponse;
+        }
+
 
         public async Task<List<PokemonListingItemResponse>> GetPokemons(int count = 10)
         {
