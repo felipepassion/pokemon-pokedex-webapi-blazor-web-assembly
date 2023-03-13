@@ -12,34 +12,30 @@
 
     public interface IPokemonService
     {
-        Task<PokemonDTO> CapturePokemon(string name);
-        Task<List<PokemonListingItemResponse>> GetAllPokemons(int? limit = null);
-        Task<PokemonDTO> GetPokemon(string pokemonName);
-        Task<List<EvolutionDTO>> GetPokemonEvolutions(string pokemonName);
-        Task<PokemonListingResponse> GetPokemons(int count = 10);
-        Task<EvolutionSpeciesResponseDTO?> GetPokemonSpiece(string pokemonName);
-        Task<List<PokemonListingItemResponse>> GetRandomPokemons(int count = 10);
-        Task<int> TotalPkemonsCount();
+        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId);
+        Task<List<PokemonListingItemResponse>> GetAllPokemonsAsync(int? limit = null);
+        Task<PokemonDTO> SearchPokemonAsync(string pokemonName);
+        Task<List<EvolutionDTO>> GetPokemonEvolutionsAsync(string pokemonName);
+        Task<PokemonListingResponse> GetPokemonsAsync(int count = 10);
+        Task<EvolutionSpeciesResponseDTO?> GetPokemonSpieceAsync(string pokemonName);
+        Task<List<PokemonDTO>> GetRandomPokemonsAsync(int count = 10);
+        Task<int> TotalPokemonsCountAsync();
     }
 
     public class PokemonService : IPokemonService
     {
-        private IPokemonDatabase _pokemonDatabase;
-        private readonly HttpClient _client;
-        private const string BaseUrl = "https://pokeapi.co/api/v2/";
-
-        public PokemonService(IServiceProvider provider)
+        private readonly IPokemonDatabase _pokemonDatabase;
+        HttpClient _client;
+        public PokemonService(IPokemonDatabase pokemonDatabase, HttpClient client)
         {
-            // Instancia uma nova instância da classe PokemonService
-            _client = provider.GetService<IHttpClientFactory>().CreateClient();
-            _client.BaseAddress = new Uri(BaseUrl);
-            _pokemonDatabase = provider.GetRequiredService<IPokemonDatabase>();
+            this._pokemonDatabase = pokemonDatabase;
+            this._client = client;
         }
 
-        public async Task<List<EvolutionDTO>> GetPokemonEvolutions(string pokemonName)
+        public async Task<List<EvolutionDTO>> GetPokemonEvolutionsAsync(string pokemonName)
         {
             // Obtemos as informações de espécie do Pokémon
-            EvolutionSpeciesResponseDTO? speciesResponse = await GetPokemonSpiece(pokemonName);
+            EvolutionSpeciesResponseDTO? speciesResponse = await GetPokemonSpieceAsync(pokemonName);
 
             // Obtemos as informações de evolução da cadeia de evolução do Pokémon
             var evolutionChainResponse = await _client.GetFromJsonAsync<EvolutionChainDTO>(speciesResponse.Evolution_Chain.Url);
@@ -64,28 +60,36 @@
             return evolutions;
         }
 
-        public async Task<EvolutionSpeciesResponseDTO?> GetPokemonSpiece(string pokemonName)
+        public async Task<EvolutionSpeciesResponseDTO?> GetPokemonSpieceAsync(string pokemonName)
         {
-            var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>($"https://pokeapi.co/api/v2/pokemon-species/{pokemonName}/");
-            if (speciesResponse is null) throw new Exception($"Espécie do Pokemon {pokemonName} não encontrada");
-            return speciesResponse;
+            try
+            {
+                var pokemon = await SearchPokemonAsync(pokemonName);
+                var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>(pokemon.Species.Url);
+                if (speciesResponse is null) throw new Exception($"Espécie do Pokemon {pokemonName} não encontrada");
+                return speciesResponse;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public async Task<PokemonDTO> GetPokemon(string pokemonName)
+        public async Task<PokemonDTO> SearchPokemonAsync(string pokemonName)
         {
             var httpClient = new HttpClient();
 
             // Obtemos as informações básicas do Pokémon
             var pokemonResponse = await httpClient.GetFromJsonAsync<PokemonDTO>($"https://pokeapi.co/api/v2/pokemon/{pokemonName}/");
 
-            if (pokemonResponse is null)
-                if (pokemonResponse is null) throw new Exception($"Pokemon {pokemonName} não encontrado");
+            if (pokemonResponse is null) throw new Exception($"Pokemon {pokemonName} não encontrado");
 
-            pokemonResponse.Capture_Rate = (await GetPokemonSpiece(pokemonName)).Capture_Rate;
+            var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>(pokemonResponse.Species.Url);
+            pokemonResponse.Capture_Rate = speciesResponse.Capture_Rate;
             return pokemonResponse;
         }
 
-        public async Task<PokemonListingResponse> GetPokemons(int count = 10)
+        public async Task<PokemonListingResponse> GetPokemonsAsync(int count = 10)
         {
             var response = await _client.GetAsync($"pokemon?limit={count}");
             response.EnsureSuccessStatusCode();
@@ -108,12 +112,12 @@
             }
         }
 
-        public async Task<List<PokemonListingItemResponse>> GetRandomPokemons(int count = 10)
+        public async Task<List<PokemonDTO>> GetRandomPokemonsAsync(int count = 10)
         {
-            var totalPokemonsCount = await TotalPkemonsCount();
-            var allPokemon = await GetAllPokemons(totalPokemonsCount);
+            var totalPokemonsCount = await TotalPokemonsCountAsync();
+            var allPokemon = await GetAllPokemonsAsync(totalPokemonsCount);
             var random = new Random();
-            var result = new List<PokemonListingItemResponse>();
+            var result = new List<PokemonDTO>();
 
             while (result.Count < count)
             {
@@ -123,7 +127,7 @@
                 // Verificar se o Pokémon já foi adicionado à lista
                 if (!result.Any(p => p.Name == pokemon.Name))
                 {
-                    result.Add(pokemon);
+                    result.Add(await SearchPokemonAsync(pokemon.Name));
                 }
             }
 
@@ -135,7 +139,7 @@
         /// </summary>
         /// <param name="limit">Limite total</param>
         /// <returns>Lista de pokemons resumida contendo Nome + Url</returns>
-        public async Task<List<PokemonListingItemResponse>> GetAllPokemons(int? limit = null)
+        public async Task<List<PokemonListingItemResponse>> GetAllPokemonsAsync(int? limit = null)
         {
             var allPokemon = new List<PokemonListingItemResponse>();
             var url = $"pokemon?limit={limit ?? 1000}";
@@ -153,18 +157,18 @@
             return allPokemon;
         }
 
-        public async Task<int> TotalPkemonsCount() => (await GetPokemons(1)).Count;
+        public async Task<int> TotalPokemonsCountAsync() => (await GetPokemonsAsync(1)).Count;
 
-        public async Task<PokemonDTO> CapturePokemon(string name)
+        public async Task<PokemonDTO> CapturePokemonAsync(string name, int masterId)
         {
-            var pokemon = await GetPokemon(name);
+            var pokemon = await SearchPokemonAsync(name);
 
             // Verifica se o Pokémon foi capturado com base na taxa de captura aleatória
-            if(TryCapturePokemon(pokemon, out float rate))
+            if (TryCapturePokemon(pokemon, out float rate))
             {
                 // Adiciona o Pokémon à tabela de capturados no banco de dados
 
-                await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon);
+                await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon, masterId);
 
                 return pokemon;
             }

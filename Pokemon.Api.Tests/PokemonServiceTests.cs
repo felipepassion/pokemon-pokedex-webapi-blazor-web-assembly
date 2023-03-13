@@ -8,15 +8,15 @@ namespace Pokemon.Tests
         [Fact]
         public async Task GetTotalPokemons()
         {
-            var total = await PokemonService.TotalPkemonsCount();
+            var total = await PokemonService.TotalPokemonsCountAsync();
             (total > 0).Should().Be(true);
         }
 
         [Fact]
         public async Task GetAllPokemons()
         {
-            var total = await PokemonService.TotalPkemonsCount();
-            var pokemons = await PokemonService.GetAllPokemons();
+            var total = await PokemonService.TotalPokemonsCountAsync();
+            var pokemons = await PokemonService.GetAllPokemonsAsync();
             pokemons.Count.Should().Be(total);
             pokemons.All(x => x.Name != null && x.Url != null).Should().Be(true);
         }
@@ -25,9 +25,9 @@ namespace Pokemon.Tests
         public async Task GetRandomPokemons()
         {
             var limit = 10;
-            var pokemons = await PokemonService.GetRandomPokemons(limit);
+            var pokemons = await PokemonService.GetRandomPokemonsAsync(limit);
             pokemons.Count.Should().Be(limit);
-            pokemons.All(x => x.Name != null && x.Url != null).Should().Be(true);
+            pokemons.All(x => x.Name != null).Should().Be(true);
             // Testar se os pokemons são únicos
             pokemons.Select(x => x.Name).Distinct().Count().Should().Be(limit);
         }
@@ -36,11 +36,11 @@ namespace Pokemon.Tests
         public async Task GetPokemonEvolutions()
         {
             var limit = 1;
-            var randomPokemon = (await PokemonService.GetRandomPokemons(limit)).FirstOrDefault();
+            var randomPokemon = (await PokemonService.GetRandomPokemonsAsync(limit)).FirstOrDefault();
             randomPokemon.Should().NotBe(null);
             randomPokemon.Name.Should().NotBe(null);
 
-            var evolutions = await PokemonService.GetPokemonEvolutions(randomPokemon.Name);
+            var evolutions = await PokemonService.GetPokemonEvolutionsAsync(randomPokemon.Id.ToString());
         }
     }
 }

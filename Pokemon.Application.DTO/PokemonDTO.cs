@@ -6,25 +6,25 @@
         {
             
         }
-        public PokemonDTO(string id, string name, int captureRate)
+        public PokemonDTO(int id, string name, int captureRate)
         {
             this.Id = id;
             Name = name;
             this.Capture_Rate = captureRate;
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
         public List<PokemonTypeDTO> Types { get; set; }
-        public SpiecesDTO Spieces { get; set; }
+        public SpeciesDTO Species { get; set; }
         public PokemonEvolutionChainLinkResponseDTO Evolution_Chain { get; set; }
         public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{Id}.png";
         public float Capture_Rate { get; set; }
     }
 
-    public class SpiecesDTO
+    public class SpeciesDTO
     {
         public string Name { get; set; }
         public string Url { get; set; }
