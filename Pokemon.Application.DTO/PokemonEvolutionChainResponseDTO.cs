@@ -1,29 +1,24 @@
 ﻿namespace Pokemon.Application.DTO
 {
-    public class PokemonEvolutionChainResponseDTO
+    public class EvolutionChainDTO
     {
-        public object BabyTriggerItem { get; set; }
-        public EvolutionChain Chain { get; set; }
-        public int Id { get; set; }
+        public EvolutionChainLinkDTO Chain { get; set; }
     }
 
-    public class EvolutionChain
+    public class EvolutionChainLinkDTO
     {
-        public List<EvolvesToDTO> EvolvesTo { get; set; }
-        public bool IsBaby { get; set; }
-        public SpeciesDTO Species { get; set; }
+        public EvolutionDetailsDTO[] EvolutionDetails { get; set; }
+        public EvolutionChainLinkDTO[] EvolvesTo { get; set; }
+        public PokemonSpeciesDTO Species { get; set; }
     }
 
-    public class EvolvesToDTO
+    public class EvolutionDetailsDTO
     {
-        public List<EvolvesToDTO> EvolvesTo { get; set; }
-        public SpeciesDTO Species { get; set; }
+        public int? MinLevel { get; set; }
     }
 
-    public class SpeciesDTO
+    public class PokemonSpeciesDTO
     {
         public string Name { get; set; }
-        public string Url { get; set; }
     }
-
 }

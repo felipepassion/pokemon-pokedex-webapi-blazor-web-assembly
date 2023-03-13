@@ -9,7 +9,7 @@ namespace Pokemon.Application.DTO
     public class EvolutionDTO
     {
         public string Name { get; set; }
-        public int Level { get; set; }
+        public int? Level { get; set; }
         public string Trigger { get; set; }
         public string SpriteUrl { get; set; }
     }

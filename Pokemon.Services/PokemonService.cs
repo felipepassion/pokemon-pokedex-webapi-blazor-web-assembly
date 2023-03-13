@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Net.Http.Json;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
@@ -20,39 +21,33 @@
 
         public async Task<List<EvolutionDTO>> GetPokemonEvolutions(string pokemonName)
         {
-            // Primeiro, obtemos as informações de espécie do Pokémon
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync($"https://pokeapi.co/api/v2/pokemon-species/{pokemonName}/");
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var speciesResponse = JsonConvert.DeserializeObject<EvolutionSpeciesResponseDTO>(responseContent);
 
-            // Em seguida, obtemos as informações de evolução da cadeia de evolução do Pokémon
-            response = await httpClient.GetAsync(speciesResponse.EvolutionChain.Url);
-            responseContent = await response.Content.ReadAsStringAsync();
-            var evolutionChainResponse = JsonConvert.DeserializeObject<PokemonEvolutionChainResponseDTO>(responseContent);
+            // Obtemos as informações de espécie do Pokémon
+            var speciesResponse = await httpClient.GetFromJsonAsync<EvolutionSpeciesResponseDTO>($"https://pokeapi.co/api/v2/pokemon-species/{pokemonName}/");
 
-            // Finalmente, extraímos as informações de evolução da cadeia de evolução
+            // Obtemos as informações de evolução da cadeia de evolução do Pokémon
+            var evolutionChainResponse = await httpClient.GetFromJsonAsync<EvolutionChainDTO>(speciesResponse.EvolutionChain.Url);
+
+            // Mapeamos a cadeia de evolução para uma lista de evoluções
             var evolutions = new List<EvolutionDTO>();
-            var queue = new Queue<PokemonEvolutionChainResponseDTO>(new[] { evolutionChainResponse });
-
-            while (queue.Count > 0)
+            var evolutionChain = evolutionChainResponse.Chain;
+            while (evolutionChain != null)
             {
-                var chain = queue.Dequeue();
-                if (chain.Species.Name == pokemonName)
+                if (evolutionChain.Species != null)
                 {
-                    // Encontramos o Pokémon desejado na cadeia de evolução
-                    // Agora, extraímos as informações de evolução para este Pokémon
-                    ExtractEvolutions(chain, evolutions);
-                    break;
+                    evolutions.Add(new EvolutionDTO
+                    {
+                        Name = evolutionChain.Species.Name,
+                        Level = evolutionChain.EvolutionDetails?.FirstOrDefault()?.MinLevel
+                    });
                 }
-                foreach (var child in chain.EvolutionDetails)
-                {
-                    queue.Enqueue(child);
-                }
+                evolutionChain = evolutionChain.EvolvesTo?.FirstOrDefault();
             }
 
             return evolutions;
         }
+
 
 
         public async Task<List<PokemonListingItemResponse>> GetPokemons(int count = 10)
@@ -65,7 +60,7 @@
             return apiResponse.Results;
         }
 
-        private void ExtractEvolutions(PokemonEvolutionChainResponseDTO chain, List<EvolutionDTO> evolutions)
+        private void ExtractEvolutions(EvolutionChainLinkDTO chain, List<EvolutionDTO> evolutions)
         {
             foreach (var evolution in chain.EvolvesTo)
             {
