@@ -7,8 +7,8 @@
 
     public class EvolutionChainLinkDTO
     {
-        public EvolutionDetailsDTO[] EvolutionDetails { get; set; }
-        public EvolutionChainLinkDTO[] EvolvesTo { get; set; }
+        public EvolutionDetailsDTO[] Evolution_Details { get; set; }
+        public EvolutionChainLinkDTO[] Evolves_To { get; set; }
         public PokemonSpeciesDTO Species { get; set; }
     }
 

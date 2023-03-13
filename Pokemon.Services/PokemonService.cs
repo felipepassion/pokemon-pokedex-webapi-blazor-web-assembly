@@ -1,6 +1,8 @@
-﻿namespace Pokemon.Api.Services
+﻿namespace Pokemon.Services
 {
+    using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Pokemon.Application.DTO;
     using System;
     using System.Collections.Generic;
@@ -15,18 +17,20 @@
 
         public PokemonService()
         {
-            _client = new HttpClient { BaseAddress = new Uri(BaseUrl) };
+            IServiceCollection services = new ServiceCollection();
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri(BaseUrl);
         }
 
         public async Task<List<EvolutionDTO>> GetPokemonEvolutions(string pokemonName)
         {
-            var httpClient = new HttpClient();
-
             // Obtemos as informações de espécie do Pokémon
-            var speciesResponse = await httpClient.GetFromJsonAsync<EvolutionSpeciesResponseDTO>($"https://pokeapi.co/api/v2/pokemon-species/{pokemonName}/");
+            var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>($"https://pokeapi.co/api/v2/pokemon-species/{pokemonName}/");
+            if (speciesResponse is null) throw new Exception($"Espécie do Pokemon {pokemonName} não encontrada");
 
             // Obtemos as informações de evolução da cadeia de evolução do Pokémon
-            var evolutionChainResponse = await httpClient.GetFromJsonAsync<EvolutionChainDTO>(speciesResponse.EvolutionChain.Url);
+            var evolutionChainResponse = await _client.GetFromJsonAsync<EvolutionChainDTO>(speciesResponse.Evolution_Chain.Url);
+            if (evolutionChainResponse is null) throw new Exception($"Cadeia de evolução do {pokemonName} não encontrada");
 
             // Mapeamos a cadeia de evolução para uma lista de evoluções
             var evolutions = new List<EvolutionDTO>();
@@ -38,10 +42,10 @@
                     evolutions.Add(new EvolutionDTO
                     {
                         Name = evolutionChain.Species.Name,
-                        Level = evolutionChain.EvolutionDetails?.FirstOrDefault()?.MinLevel
+                        Level = evolutionChain.Evolution_Details?.FirstOrDefault()?.MinLevel
                     });
                 }
-                evolutionChain = evolutionChain.EvolvesTo?.FirstOrDefault();
+                evolutionChain = evolutionChain.Evolves_To?.FirstOrDefault();
             }
 
             return evolutions;
@@ -53,29 +57,31 @@
 
             // Obtemos as informações básicas do Pokémon
             var pokemonResponse = await httpClient.GetFromJsonAsync<PokemonDTO>($"https://pokeapi.co/api/v2/pokemon/{pokemonName}/");
+            
+            if(pokemonResponse is null)
+                if (pokemonResponse is null) throw new Exception($"Pokemon {pokemonName} não encontrado");
 
             return pokemonResponse;
         }
 
-
-        public async Task<List<PokemonListingItemResponse>> GetPokemons(int count = 10)
+        public async Task<PokemonListingResponse> GetPokemons(int count = 10)
         {
             var response = await _client.GetAsync($"pokemon?limit={count}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<PokemonListingResponse>(content);
 
-            return apiResponse.Results;
+            return apiResponse;
         }
 
         private void ExtractEvolutions(EvolutionChainLinkDTO chain, List<EvolutionDTO> evolutions)
         {
-            foreach (var evolution in chain.EvolvesTo)
+            foreach (var evolution in chain.Evolves_To)
             {
                 evolutions.Add(new EvolutionDTO
                 {
                     Name = evolution.Species.Name,
-                    Level = evolution.EvolutionDetails?[0]?.MinLevel
+                    Level = evolution.Evolution_Details?[0]?.MinLevel
                 });
                 ExtractEvolutions(evolution, evolutions);
             }
@@ -111,7 +117,7 @@
         public async Task<List<PokemonListingItemResponse>> GetAllPokemons(int? limit = null)
         {
             var allPokemon = new List<PokemonListingItemResponse>();
-            var url = "pokemon?limit=1000";
+            var url = $"pokemon?limit={limit ?? 1000}";
 
             while (url != null)
             {

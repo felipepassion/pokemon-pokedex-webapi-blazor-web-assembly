@@ -4,16 +4,12 @@ namespace Pokemon.Application.DTO
 {
     public class EvolutionSpeciesResponseDTO
     {
-        [JsonProperty("id")]
         public int Id { get; set; }
+        
+        public float Capture_Rate { get; set; }
 
-        [JsonProperty("capture_rate")]
-        public float CaptureRate { get; set; }
+        public EvolutionSpeciesChainItemDTO Evolution_Chain { get; set; }
 
-        [JsonProperty("evolution_chain")]
-        public EvolutionSpeciesChainItemDTO EvolutionChain { get; set; }
-
-        [JsonProperty("name")]
         public string Name { get; set; }
     }
 

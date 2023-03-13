@@ -1,4 +1,4 @@
-﻿namespace Pokemon.Api.Services
+﻿namespace Pokemon.Services
 {
     using System.Collections.Generic;
 
