@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
 
-namespace Pokemin.Api.Blazor.Server.HttpClient
+namespace Pokemon.Api.HttpClient
 {
     public class ConfigureBaseUrlOptions : IConfigureOptions<HttpClientFactoryOptions>
     {

@@ -1,15 +1,14 @@
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using Pokemin.Api.Blazor.Server.HttpClient;
-using Pokemin.Api.Blazor.Server.Middlewares;
+using Pokemon.Api;
+using Pokemon.Api.HttpClient;
+using Pokemon.Api.Middlewares;
 using Pokemon.Data;
 using Pokemon.Services;
 using System.Text.Json.Serialization;
-using Pokemon.Api;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 

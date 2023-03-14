@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 
-namespace Pokemin.Api.Blazor.Server.Middlewares
+namespace Pokemon.Api.Middlewares
 {
     public class ErrorHandlingMiddleware : IMiddleware
     {
@@ -21,7 +21,7 @@ namespace Pokemin.Api.Blazor.Server.Middlewares
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
-            var result = JsonConvert.SerializeObject(new { error = exception.Message });
+            var result = JsonConvert.SerializeObject(new { error = exception.Message + "\n" + exception.InnerException?.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);

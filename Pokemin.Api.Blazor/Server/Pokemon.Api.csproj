@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -18,14 +18,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="Tynamix.ObjectFiller" Version="1.5.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Pokemon.Services\Pokemon.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Docs\Samples\" />
   </ItemGroup>
 
 
