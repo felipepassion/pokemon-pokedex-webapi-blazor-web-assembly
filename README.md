@@ -86,3 +86,14 @@ A seguir estão as rotas da API do PokemonController com suas descrições, mét
 - Parâmetros de consulta:
   - masterId (opcional): O ID do mestre Pokémon.
 - Retorno: Um objeto GetResponseDTO contendo uma lista de Pokémons capturados pelo mestre especificado ou por todos os mestres.
+
+## 5 - Obter todos os Pokémons capturados filtrando por um mestre ou não
+- Método: GetAllCapturedPokemons
+- Rotas:
+  - GET /api/pokemon/captured/{masterId}
+  - GET /api/pokemon/captured
+- Descrição: Obtém todos os Pokémons capturados filtrando por um mestre ou não.
+- Parâmetros de consulta:
+  - masterId (opcional): O ID do mestre Pokémon.
+- Retorno: Um objeto GetResponseDTO contendo uma lista de Pokémons capturados pelo mestre especificado ou por todos os mestres.
+
