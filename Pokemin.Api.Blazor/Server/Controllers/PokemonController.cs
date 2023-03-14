@@ -15,13 +15,6 @@ namespace Pokemin.Api.Blazor.Server.Controllers
         {
             _pokemonService = pokemonService;
         }
-         
-        [HttpPost("{name}/{masterId}")]
-        public async Task<ActionResult<PokemonDTO>> CapturePokemonAsync(string name, int masterId)
-        {
-            var pokemon = await _pokemonService.CapturePokemonAsync(name, masterId);
-            return Ok(pokemon);
-        }
 
         [HttpGet]
         public async Task<ActionResult<List<PokemonListingItemResponse>>> GetAllPokemonsAsync([FromQuery] int? limit = null)
@@ -80,6 +73,13 @@ namespace Pokemin.Api.Blazor.Server.Controllers
             return Ok(count);
         }
 
+        [HttpGet("masters")]
+        public async Task<ActionResult<int>> GetAllPokemonMasters()
+        {
+            var masters = await _pokemonService.GetAllPokemonMasters();
+            return Ok(masters);
+        }
+
         [HttpPost("masters/register")]
         public async Task<ActionResult<int>> RegisterPokemonMaster([Required] PokemonMasterDTO master)
         {
@@ -90,7 +90,7 @@ namespace Pokemin.Api.Blazor.Server.Controllers
             return Ok(newMaster);
         }
 
-        [HttpPost("{masterId}/{pokemonName}/capture")]
+        [HttpPost("{pokemonName}/{masterId}/capture")]
         public async Task<ActionResult<int>> CapturePokemon([Required] int masterId, [Required] string pokemonName, bool? forceCapture = true)
         {
             if (!ModelState.IsValid)
@@ -98,6 +98,17 @@ namespace Pokemin.Api.Blazor.Server.Controllers
 
             var count = await _pokemonService.CapturePokemonAsync(pokemonName, masterId, forceCapture.Value);
             return Ok(count);
+        }
+
+        [HttpGet("captured/{masterId}")]
+        [HttpGet("captured")]
+        public async Task<ActionResult<int>> GetAllCapturedPokemons(int? masterId = null)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var allCapturedPokemons = await _pokemonService.GetAllCapturedPokemons(masterId);
+            return Ok(allCapturedPokemons);
         }
     }
 }

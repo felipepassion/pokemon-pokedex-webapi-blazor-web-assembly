@@ -14,11 +14,12 @@ namespace Pokemon.Services
         Task<List<EvolutionDTO>> GetPokemonEvolutionsAsync(string pokemonName);
         Task<EvolutionSpeciesResponseDTO?> GetPokemonSpieceAsync(string pokemonName);
         Task<List<PokemonListingItemResponse>> GetAllPokemonsAsync(int? limit = null);
-        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true);
         Task<PokemonMasterDTO> RegisterMasterPokemon(PokemonMasterDTO master);
         Task<PokemonMasterDTO> GetPokemonMaster(string name);
         Task<PokemonMasterDTO> GetPokemonMasterById(int id);
         Task<List<PokemonMasterDTO>> GetAllPokemonMasters();
+        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true);
+        Task<List<CapturedPokemonDTO>> GetAllCapturedPokemons(int? masterId = null);
     }
 
     public class PokemonService : IPokemonService
@@ -168,7 +169,7 @@ namespace Pokemon.Services
             {
                 // Adiciona o Pokémon à tabela de capturados no banco de dados
 
-                await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon, masterId);
+                await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon, existingMaster);
 
                 return pokemon;
             }
@@ -191,19 +192,16 @@ namespace Pokemon.Services
             return rate <= pokemon.Capture_Rate;
         }
 
-        public async Task<PokemonMasterDTO> GetPokemonMaster(string name)
-        {
-            return await _pokemonDatabase.SearchMasterPokemonByNameAsync(name);
-        }
+        public async Task<PokemonMasterDTO> GetPokemonMaster(string name) 
+            => await _pokemonDatabase.SearchMasterPokemonByNameAsync(name);
 
-        public async Task<PokemonMasterDTO> GetPokemonMasterById(int id)
-        {
-            return await _pokemonDatabase.SearchMasterPokemonByIdAsync(id);
-        }
+        public async Task<PokemonMasterDTO> GetPokemonMasterById(int id) 
+            => await _pokemonDatabase.SearchMasterPokemonByIdAsync(id);
 
-        public async Task<List<PokemonMasterDTO>> GetAllPokemonMasters()
-        {
-            return await _pokemonDatabase.GetAllPokemonMastersAsync();
-        }
+        public async Task<List<PokemonMasterDTO>> GetAllPokemonMasters() 
+            => await _pokemonDatabase.GetAllPokemonMastersAsync();
+
+        public async Task<List<CapturedPokemonDTO>> GetAllCapturedPokemons(int? masterId = null)
+            => await _pokemonDatabase.GetAllCapturedPokemonsAsync(masterId);
     }
 }

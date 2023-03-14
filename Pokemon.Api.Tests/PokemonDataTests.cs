@@ -7,9 +7,10 @@ namespace Pokemon.Tests
     public class PokemonDataTests : BaseTests
     {
         [Fact]
-        public async Task DatabaseInitialization()
+        public void DatabaseInitialization()
         {
             // Se o construtor for chamado e não der erro, quer dizer que as tabelas foram criadas.
+            this.PokemonDatabase.ClearDatabase();
         }
 
         [Fact]
@@ -43,12 +44,24 @@ namespace Pokemon.Tests
 
             var masterId = masterInDb.Id;
             var randomPokemon = (await this.PokemonService.GetRandomPokemonsAsync(1)).FirstOrDefault();
-            await this.PokemonDatabase.SaveCapturedPokemonAsync(randomPokemon, masterId);
+            await this.PokemonDatabase.SaveCapturedPokemonAsync(randomPokemon, masterInDb);
 
             var existingCaptured = (await this.PokemonDatabase.GetAllCapturedPokemonsAsync(masterId))
-                .FirstOrDefault(x => x.Name == randomPokemon.Name);
+                .FirstOrDefault(x => x.PokemonName == randomPokemon.Name);
             existingCaptured.Should().NotBeNull();
-            existingCaptured.Name.Should().Be(randomPokemon.Name);
+            existingCaptured.PokemonName.Should().Be(randomPokemon.Name);
+        }
+
+        [Fact]
+        public async Task GetAllCapturedPokemons()
+        {
+            var newMaster = await this.PokemonDatabase.SaveMasterPokemonAsync(new Filler<PokemonMasterDTO>().Create());
+            var randomPokemon = (await this.PokemonService.GetRandomPokemonsAsync(1)).FirstOrDefault();
+            var newCapturedPokemon = await this.PokemonDatabase.SaveCapturedPokemonAsync(randomPokemon, newMaster);
+            var allCapturedPokemons = await this.PokemonDatabase.GetAllCapturedPokemonsAsync(newMaster.Id);
+
+            var myCapturedPokemon = allCapturedPokemons.FirstOrDefault(x=>x.PokemonId == randomPokemon.Id);
+            myCapturedPokemon.Should().NotBeNull();
         }
     }
 }
