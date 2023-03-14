@@ -110,3 +110,8 @@ A metodologia TDD, por sua vez, ajuda a garantir a qualidade do código e a evit
 Com base em Clean Architecture e Clean Code, seu projeto tem uma estrutura de código bem organizada, clara e legível, com foco na separação de responsabilidades e na manutenção da coesão e baixo acoplamento entre as diferentes camadas da aplicação. Isso ajuda a garantir a escalabilidade do projeto, permitindo que ele cresça e evolua ao longo do tempo sem se tornar difícil de manter.
 
 Em resumo, a combinação de DDD, TDD, Clean Architecture e Clean Code traz diversos benefícios para escalabilidade do projeto, permitindo que ele seja implementado de forma eficiente, com qualidade e robustez, e que possa ser facilmente mantido e evoluído ao longo do tempo.
+
+ Além das metodologias DDD e TDD, a API também conta com uma tela inicial básica ao executar o projeto BLAZOR em WebAssembly. Essa tela contém três botões para acessar a documentação, o repositório GitHub e os testes da API via Swagger.
+
+A tela inicial é uma ótima forma de fornecer aos usuários um acesso rápido e fácil às informações importantes sobre a API. Ao clicar no botão "Documentação", o usuário é direcionado para uma página que contém a documentação completa da API, incluindo informações sobre os endpoints, os parâmetros de entrada, os formatos de retorno e muito mais.
+![image](https://user-images.githubusercontent.com/29386600/225142422-4db44899-4700-47b8-bca9-212bb7e46fab.png)
