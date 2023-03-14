@@ -123,3 +123,5 @@ Em resumo, a combinação de DDD, TDD, Clean Architecture e Clean Code traz dive
 
 A tela inicial é uma ótima forma de fornecer aos usuários um acesso rápido e fácil às informações importantes sobre a API. Ao clicar no botão "Documentação", o usuário é direcionado para uma página que contém a documentação completa da API, incluindo informações sobre os endpoints, os parâmetros de entrada, os formatos de retorno e muito mais.
 ![image](https://user-images.githubusercontent.com/29386600/225142422-4db44899-4700-47b8-bca9-212bb7e46fab.png)
+
+![image](https://user-images.githubusercontent.com/29386600/225157637-013a1213-8827-4046-9872-403bb4995df2.png)
