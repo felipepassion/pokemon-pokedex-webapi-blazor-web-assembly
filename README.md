@@ -39,10 +39,8 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 - Instalar o Visual Studio 2022: O Visual Studio 2022 é um ambiente de desenvolvimento integrado que fornece uma interface amigável para criar, depurar e gerenciar projetos .NET. Certifique-se de instalar o Visual Studio 2022 no seu computador antes de tentar executar o projeto.
 - [Download Visual Studio 2022]([[https://github.com/Tynamix/ObjectFiller.NET](https://visualstudio.microsoft.com/pt-br/vs/)](https://dotnet.microsoft.com/en-us/download/dotnet/7.0))
-- 
-- Verificar as especificações do sistema: Certifique-se de que o seu computador atenda às especificações necessárias para executar o .NET 7 SDK e o Visual Studio 2022. Verifique as informações de requisitos mínimos de sistema para cada um deles antes de tentar instalar.
 
--
+- Verificar as especificações do sistema: Certifique-se de que o seu computador atenda às especificações necessárias para executar o .NET 7 SDK e o Visual Studio 2022. Verifique as informações de requisitos mínimos de sistema para cada um deles antes de tentar instalar.
 
 ## Rotas
 
