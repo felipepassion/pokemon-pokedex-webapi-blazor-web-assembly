@@ -86,3 +86,27 @@ A seguir estão as rotas da API do PokemonController com suas descrições, mét
 - Parâmetros de consulta:
   - masterId (opcional): O ID do mestre Pokémon.
 - Retorno: Um objeto GetResponseDTO contendo uma lista de Pokémons capturados pelo mestre especificado ou por todos os mestres.
+
+# Testes de Integração via `Postman` e `XUnit`
+
+![image](https://user-images.githubusercontent.com/29386600/225140301-613ab251-433d-4629-9a5c-a8f5bb77144e.png)
+
+## Todos os testes funcionando 
+![image](https://user-images.githubusercontent.com/29386600/225140439-9708ba9e-2026-4aa9-b476-3b4db14ce44c.png)
+![image](https://user-images.githubusercontent.com/29386600/225140513-0dcd3acc-eae8-437f-ac1e-c00fb104d7c6.png)
+
+## Metodologias utilizadas: 
+
+- DDD
+- TDD
+- CLEAN ARCH. 
+- CLEAN CODE
+- SOLID
+
+A metodologia DDD ajuda a focar no negócio e nos requisitos do sistema, permitindo que criar uma estrutura de código que reflita o domínio da aplicação. Isso significa que a arquitetura da aplicação é baseada em um modelo de domínio rico, que descreve as entidades, objetos de valor, agregados e serviços que compõem o sistema. Essa abordagem ajuda a criar uma separação clara entre as camadas de negócio e de infraestrutura, garantindo que as funcionalidades de negócio possam ser implementadas sem depender dos detalhes da infraestrutura.
+
+A metodologia TDD, por sua vez, ajuda a garantir a qualidade do código e a evitar problemas de regressão. Com ela, temos testes automatizados para cada funcionalidade do sistema antes mesmo de começar a implementá-las. Isso ajuda a definir claramente os requisitos de cada funcionalidade e a evitar que o código seja implementado de forma incorreta ou incompleta. Além disso, a prática de escrever testes antes de implementar o código ajuda a identificar e corrigir problemas de design e arquitetura precocemente.
+
+Com base em Clean Architecture e Clean Code, seu projeto tem uma estrutura de código bem organizada, clara e legível, com foco na separação de responsabilidades e na manutenção da coesão e baixo acoplamento entre as diferentes camadas da aplicação. Isso ajuda a garantir a escalabilidade do projeto, permitindo que ele cresça e evolua ao longo do tempo sem se tornar difícil de manter.
+
+Em resumo, a combinação de DDD, TDD, Clean Architecture e Clean Code traz diversos benefícios para escalabilidade do projeto, permitindo que ele seja implementado de forma eficiente, com qualidade e robustez, e que possa ser facilmente mantido e evoluído ao longo do tempo.
