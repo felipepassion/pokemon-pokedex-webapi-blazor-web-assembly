@@ -125,3 +125,6 @@ A tela inicial é uma ótima forma de fornecer aos usuários um acesso rápido e
 ![image](https://user-images.githubusercontent.com/29386600/225142422-4db44899-4700-47b8-bca9-212bb7e46fab.png)
 
 ![image](https://user-images.githubusercontent.com/29386600/225157637-013a1213-8827-4046-9872-403bb4995df2.png)
+
+## SWAGGER
+![image](https://user-images.githubusercontent.com/29386600/225158002-322a1520-ca02-48f9-b6c9-6d2599c8fbc2.png)
