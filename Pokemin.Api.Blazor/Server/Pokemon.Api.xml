@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pokemon.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Pokemon.Api.SwaggerConfigure.ConfigureSchemas(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            Swagger schemsa and OperationFilters configuration
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:Pokemon.Api.SwaggerConfigure.ConfigureDocumentation(Microsoft.Extensions.Configuration.IConfiguration,Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            Documentation XML path's and README configuration
+            </summary>
+            <param name="configuration"></param>
+            <param name="options"></param>
+        </member>
+    </members>
+</doc>
