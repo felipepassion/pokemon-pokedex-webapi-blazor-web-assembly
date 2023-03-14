@@ -12,9 +12,16 @@ Este projeto é uma API desenvolvida em .NET Framework que consome a API PokeAPI
 
 ## Tecnologias Utilizadas
 
-- .NET Framework
-- SQLite
-- RestSharp
+## Tecnologias Utilizadas
+
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
+
+- [Microsoft.NET](https://dotnet.microsoft.com/) - plataforma de desenvolvimento utilizada
+- [ASP.NET Core](https://dotnet.microsoft.com/apps/aspnet) - framework utilizado para desenvolvimento da API
+- [SQLite](https://www.sqlite.org/index.html) - sistema de gerenciamento de banco de dados utilizado para persistência dos dados da aplicação
+- [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - biblioteca utilizada para geração de documentação da API
+- [Tynamix.ObjectFiller](https://github.com/Tynamix/ObjectFiller.NET) - biblioteca utilizada para geração de dados aleatórios
+
 
 ## Como Usar
 
