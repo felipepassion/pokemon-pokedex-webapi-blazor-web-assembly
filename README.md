@@ -21,7 +21,10 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 - [SQLite](https://www.sqlite.org/index.html) - sistema de gerenciamento de banco de dados utilizado para persistência dos dados da aplicação
 - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - biblioteca utilizada para geração de documentação da API
 - [Tynamix.ObjectFiller](https://github.com/Tynamix/ObjectFiller.NET) - biblioteca utilizada para geração de dados aleatórios
-
+- [FluentAssertions](https://fluentassertions.com/)
+- [Tynamix.ObjectFiller](https://github.com/Tynamix/ObjectFiller.NET)
+- [xUnit](https://xunit.net/)
+- [Microsoft.NET.Test.Sdk](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test)
 
 ## Como Usar
 
