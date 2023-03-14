@@ -14,15 +14,5 @@
         /// Obtém ou define a URL do recurso do Pokémon deste link de evolução.
         /// </summary>
         public string Url { get; set; }
-
-        /// <summary>
-        /// Obtém a URL da imagem do sprite do Pokémon deste link de evolução.
-        /// </summary>
-        public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{Id}.png";
-
-        /// <summary>
-        /// Obtém o ID do Pokémon deste link de evolução a partir da sua URL.
-        /// </summary>
-        public int Id => int.Parse(Url.Split('/')[6]);
     }
 }

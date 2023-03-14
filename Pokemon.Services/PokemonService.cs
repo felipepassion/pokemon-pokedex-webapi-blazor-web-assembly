@@ -18,7 +18,7 @@ namespace Pokemon.Services
         Task<PokemonMasterDTO> GetPokemonMaster(string name);
         Task<PokemonMasterDTO> GetPokemonMasterById(int id);
         Task<List<PokemonMasterDTO>> GetAllPokemonMasters();
-        Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true);
+        Task<CapturedPokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true);
         Task<List<CapturedPokemonDTO>> GetAllCapturedPokemons(int? masterId = null);
     }
 
@@ -157,7 +157,7 @@ namespace Pokemon.Services
 
         public async Task<int> GetTotalPokemonsCountAsync() => (await GetPokemonsAsync(1)).Count;
 
-        public async Task<PokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true)
+        public async Task<CapturedPokemonDTO> CapturePokemonAsync(string name, int masterId, bool forceCapture = true)
         {
             var existingMaster = await GetPokemonMasterById(masterId);
             if (existingMaster is null) throw new Exception($"Mestre pokemon não encontrado com o id '{masterId}'");
@@ -169,9 +169,7 @@ namespace Pokemon.Services
             {
                 // Adiciona o Pokémon à tabela de capturados no banco de dados
 
-                await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon, existingMaster);
-
-                return pokemon;
+                return await _pokemonDatabase.SaveCapturedPokemonAsync(pokemon, existingMaster);
             }
             else
             {

@@ -32,7 +32,7 @@ namespace Pokemon.Api
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "App Cidadão - API",
+                    Title = "Pokémon - API",
                     Description = "Api que alimenta com dados o aplicativo ECO-Pass. \n </br></br> Coleção de Testes do postman: https://www.getpostman.com/collections/5e80bbfcdb06e173b0e1 </br> Environment de hml: https://drive.google.com/file/d/1ifL_wmumaClR42myHUvkAN5t7wVQK2Yv/view?usp=sharing",
                     Contact = new OpenApiContact
                     {

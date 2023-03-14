@@ -13,7 +13,7 @@
         </member>
         <member name="M:Pokemon.Api.Controllers.PokemonController.SearchPokemonAsync(System.String)">
             <summary>
-            Busca um Pokémon pelo seu nome na API
+            2 - Busca um Pokémon específico pelo seu nome ou ID na API
             </summary>
             <param name="pokemonName">O nome do Pokémon a ser procurado</param>
             <returns>Um GetResponseDTO contendo um PokemonDTO se o Pokémon for encontrado, caso contrário retorna NotFound</returns>
@@ -41,7 +41,7 @@
         </member>
         <member name="M:Pokemon.Api.Controllers.PokemonController.GetRandomPokemonsAsync(System.Int32)">
             <summary>
-            Obtém uma lista de Pokémons aleatórios.
+            1 - Obtém uma lista de Pokémons aleatórios.
             </summary>
             <param name="count">O número de Pokémons a serem retornados.</param>
             <returns>Uma lista de Pokémons aleatórios.</returns>
@@ -54,7 +54,7 @@
         </member>
         <member name="M:Pokemon.Api.Controllers.PokemonController.GetAllPokemonMasters">
             <summary>
-            Obtém todos os mestres Pokémon registrados no sistema.
+            3 - Obtém todos os mestres Pokémon registrados no sistema.
             </summary>
             <returns>O número total de mestres Pokémon registrados no sistema.</returns>
         </member>
@@ -67,7 +67,7 @@
         </member>
         <member name="M:Pokemon.Api.Controllers.PokemonController.CapturePokemon(System.Int32,System.String,System.Nullable{System.Boolean})">
             <summary>
-            Captura um Pokémon para um mestre Pokémon especificado.
+            4 - Captura um Pokémon para um mestre Pokémon especificado.
             </summary>
             <param name="masterId">O ID do mestre Pokémon.</param>
             <param name="pokemonName">O nome do Pokémon a ser capturado.</param>
@@ -76,7 +76,7 @@
         </member>
         <member name="M:Pokemon.Api.Controllers.PokemonController.GetAllCapturedPokemons(System.Nullable{System.Int32})">
             <summary>
-            Obtém todos os Pokémons capturados por um mestre Pokémon especificado.
+            5 - Obtém todos os Pokémons capturados filtrando por um mestre ou não.
             </summary>
             <param name="masterId">O ID do mestre Pokémon.</param>
             <returns>O número de Pokémons capturados pelo mestre até o momento.</returns>
