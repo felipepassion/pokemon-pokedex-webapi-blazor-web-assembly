@@ -17,5 +17,82 @@
             <param name="configuration"></param>
             <param name="options"></param>
         </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetAllPokemonsAsync(System.Nullable{System.Int32})">
+            <summary>
+            Obtém uma lista de Pokémons com base em um limite opcional.
+            </summary>
+            <param name="limit">O limite máximo de Pokémons a serem retornados.</param>
+            <returns>Uma lista de Pokémons.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.SearchPokemonAsync(System.String)">
+            <summary>
+            Busca um Pokémon pelo seu nome na API
+            </summary>
+            <param name="pokemonName">O nome do Pokémon a ser procurado</param>
+            <returns>Um ActionResult contendo um PokemonDTO se o Pokémon for encontrado, caso contrário retorna NotFound</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetPokemonEvolutionsAsync(System.String)">
+            <summary>
+            Obtém informações sobre as evoluções de um Pokémon especificado.
+            </summary>
+            <param name="pokemonName">O nome do Pokémon a ser pesquisado.</param>
+            <returns>Uma lista de informações sobre as evoluções do Pokémon.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetPokemonsAsync(System.Int32)">
+            <summary>
+            Obtém uma lista paginada de Pokémons.
+            </summary>
+            <param name="count">O número de Pokémons a serem retornados em cada página.</param>
+            <returns>Uma lista paginada de Pokémons.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetPokemonSpieceAsync(System.String)">
+            <summary>
+            Obtém informações sobre a espécie de um Pokémon especificado.
+            </summary>
+            <param name="pokemonName">O nome do Pokémon a ser pesquisado.</param>
+            <returns>Informações sobre a espécie do Pokémon.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetRandomPokemonsAsync(System.Int32)">
+            <summary>
+            Obtém uma lista de Pokémons aleatórios.
+            </summary>
+            <param name="count">O número de Pokémons a serem retornados.</param>
+            <returns>Uma lista de Pokémons aleatórios.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.TotalPokemonsCountAsync">
+            <summary>
+            Obtém o número total de Pokémons disponíveis na API
+            </summary>
+            <returns>O número total de Pokémons disponíveis como um ActionResult do tipo int</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetAllPokemonMasters">
+            <summary>
+            Obtém todos os mestres Pokémon registrados no sistema.
+            </summary>
+            <returns>O número total de mestres Pokémon registrados no sistema.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.RegisterPokemonMaster(Pokemon.Application.DTO.PokemonMasterDTO)">
+            <summary>
+            Registra um novo mestre Pokémon
+            </summary>
+            <param name="master">As informações do mestre Pokémon a ser registrado</param>
+            <returns>Um ActionResult contendo o ID do novo mestre Pokémon criado</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.CapturePokemon(System.Int32,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Captura um Pokémon para um mestre Pokémon especificado.
+            </summary>
+            <param name="masterId">O ID do mestre Pokémon.</param>
+            <param name="pokemonName">O nome do Pokémon a ser capturado.</param>
+            <param name="forceCapture">Define se a captura deve ser forçada, mesmo que o Pokémon já tenha sido capturado anteriormente pelo mestre.</param>
+            <returns>O número de Pokémons capturados pelo mestre até o momento.</returns>
+        </member>
+        <member name="M:Pokemin.Api.Blazor.Server.Controllers.PokemonController.GetAllCapturedPokemons(System.Nullable{System.Int32})">
+            <summary>
+            Obtém todos os Pokémons capturados por um mestre Pokémon especificado.
+            </summary>
+            <param name="masterId">O ID do mestre Pokémon.</param>
+            <returns>O número de Pokémons capturados pelo mestre até o momento.</returns>
+        </member>
     </members>
 </doc>
