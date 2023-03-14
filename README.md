@@ -1,4 +1,4 @@
-# Nome do Projeto
+# Pokemon API
 
 Este projeto é uma API desenvolvida em .NET Framework que consome a API PokeAPI para fornecer informações sobre Pokémons.
 
