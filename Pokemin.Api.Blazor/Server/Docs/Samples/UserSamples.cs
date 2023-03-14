@@ -89,7 +89,10 @@ namespace Pokemon.Api.Docs.Samples
             public GetResponseDTO<List<PokemonDTO>> GetExamples()
             {
                 var result = new GetResponseDTO<List<PokemonDTO>>();
-                result.Data = new Filler<PokemonDTO>().Create(5).ToList();
+                var filler = new Filler<PokemonDTO>();
+                filler.Setup().OnProperty(x => x.SpriteUrl).IgnoreIt();
+                filler.Setup().OnProperty(x => x.Types).IgnoreIt();
+                result.Data = filler.Create(5).ToList();
                 result.StatusCode = System.Net.HttpStatusCode.OK;
                 return result;
             }

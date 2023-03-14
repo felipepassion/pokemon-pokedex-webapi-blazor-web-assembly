@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Pokemon.Application.DTO;
 using System.Net;
 
 namespace Pokemon.Api.Middlewares
@@ -21,7 +22,7 @@ namespace Pokemon.Api.Middlewares
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
-            var result = JsonConvert.SerializeObject(new { error = exception.Message + "\n" + exception.InnerException?.Message });
+            var result = JsonConvert.SerializeObject(new GetResponseDTO { Errors = new string[] { exception.Message + "\n" + exception.InnerException?.Message } });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);

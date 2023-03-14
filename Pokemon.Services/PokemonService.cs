@@ -85,9 +85,33 @@ namespace Pokemon.Services
             var speciesResponse = await _client.GetFromJsonAsync<EvolutionSpeciesResponseDTO>(pokemonResponse.Species.Url);
             pokemonResponse.Capture_Rate = speciesResponse.Capture_Rate;
             pokemonResponse.Evolutions = await GetPokemonEvolutionsAsync(pokemonName);
+            //pokemonResponse.SpriteBase64 = await GetImageBase64(pokemonResponse.SpriteUrl);
             return pokemonResponse;
         }
 
+        public static async Task<string> GetImageBase64(string url)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    var response = await httpClient.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var byteArray = await response.Content.ReadAsByteArrayAsync();
+                        return Convert.ToBase64String(byteArray);
+                    }
+                    else
+                    {
+                        throw new Exception($"Request failed with status code {response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
         public async Task<PokemonListingResponse> GetPokemonsAsync(int count = 10)
         {
             var response = await _client.GetAsync($"pokemon?limit={count}");

@@ -280,12 +280,12 @@ namespace Pokemon.Api.Controllers
         [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(UserErrorsSamples.RandomBadRequest))]
         [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PokemonOKSamples.CapturePokemon))]
         #endregion
-        public async Task<GetResponseDTO<CapturedPokemonDTO>> CapturePokemon([Required] int masterId, [Required] string pokemonName, bool? forceCapture = true)
+        public async Task<GetResponseDTO<CapturedPokemonDTO>> CapturePokemon([Required] int masterId, [Required] string pokemonName, bool forceCapture = true)
         {
             if (!ModelState.IsValid)
                 return GetResponseDTO<CapturedPokemonDTO>.BadRequest(ModelState);
 
-            var pokemon = await _pokemonService.CapturePokemonAsync(pokemonName, masterId, forceCapture.Value);
+            var pokemon = await _pokemonService.CapturePokemonAsync(pokemonName, masterId, forceCapture);
             return GetResponseDTO<CapturedPokemonDTO>.Ok(pokemon);
         }
 

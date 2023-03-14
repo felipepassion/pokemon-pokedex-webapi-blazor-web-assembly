@@ -43,6 +43,11 @@
         public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{Id}.png";
 
         /// <summary>
+        /// URL para a imagem do Pokémon.
+        /// </summary>
+        public string SpriteBase64 { get; set; }
+
+        /// <summary>
         /// Taxa de captura do Pokémon.
         /// </summary>
         public float Capture_Rate { get; set; }

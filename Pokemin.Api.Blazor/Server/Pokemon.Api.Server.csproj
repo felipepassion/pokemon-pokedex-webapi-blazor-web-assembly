@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Pokemon.Services\Pokemon.Services.csproj" />
+    <ProjectReference Include="..\Client\Pokemin.Api.Blazor.Client.csproj" />
+    <ProjectReference Include="..\Shared\Pokemin.Api.Blazor.Shared.csproj" />
   </ItemGroup>
 
 

@@ -1,9 +1,32 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<div class="jumbotron">
+    <h1>API PokeMaster</h1>
+    <p>A API PokeMaster é uma ferramenta poderosa para mestres pokemon que desejam gerenciar seus pokémons capturados e obter informações sobre eles.</p>
+    <p>Esta API oferece as seguintes funcionalidades:</p>
+    <ul>
+        <li>GET para 10 pokémons aleatórios, incluindo seus dados básicos, evoluções e o base64 do sprite default.</li>
+        <li>GET para um pokémon específico, incluindo seus dados básicos, evoluções e o base64 do sprite default.</li>
+        <li>Cadastro do mestre pokemon, incluindo nome, idade e CPF.</li>
+        <li>POST para informar que um pokémon foi capturado.</li>
+        <li>Listagem dos pokémons já capturados.</li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Primeiros Passos</h2>
+        <p>Para acessar a documentação, clique no botão abaixo:</p>
+        <p><a class="btn btn-default" target="new_blank" href="/docs">Acessar Documentação &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Repositório GitHub</h2>
+        <p>Para acessar o repositório no Github, clique no botão abaixo:</p>
+        <p><a class="btn btn-default" target="new_blank" href="https://github.com/felipepassion/Pokemon.Api">Repositório GitHub &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Teste a API via SWAGGER</h2>
+        <p>Acesse nossa documentação técnica para testar em tempo real os endpoints do sistema via Swagger</p>
+        <p><a class="btn btn-default" target="new_blank" href="/swagger">Learn more &raquo;</a></p>
+    </div>
+</div>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />

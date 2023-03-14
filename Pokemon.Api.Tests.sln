@@ -9,13 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemon.Services", "Pokemon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemon.Application.DTO", "Pokemon.Application.DTO\Pokemon.Application.DTO.csproj", "{38592D5B-E1C2-48ED-B752-769B207A8D9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemon.Api", "Pokemin.Api.Blazor\Server\Pokemon.Api.csproj", "{C6A07D89-D6CF-4777-84DB-2B3F1BD8E133}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemon.Api.Server", "Pokemin.Api.Blazor\Server\Pokemon.Api.Server.csproj", "{C6A07D89-D6CF-4777-84DB-2B3F1BD8E133}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{93C3B584-F701-4425-BEC4-ABB6F2E998BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{488324A6-8D1F-411D-9B4D-D9A52079EA9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemon.Data", "Pokemon.Data\Pokemon.Data.csproj", "{8A346291-D690-4831-847D-DBB9D767A598}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemin.Api.Blazor.Client", "Pokemin.Api.Blazor\Client\Pokemin.Api.Blazor.Client.csproj", "{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokemin.Api.Blazor.Shared", "Pokemin.Api.Blazor\Shared\Pokemin.Api.Blazor.Shared.csproj", "{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,14 @@ Global
 		{8A346291-D690-4831-847D-DBB9D767A598}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A346291-D690-4831-847D-DBB9D767A598}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A346291-D690-4831-847D-DBB9D767A598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +64,8 @@ Global
 		{38592D5B-E1C2-48ED-B752-769B207A8D9F} = {488324A6-8D1F-411D-9B4D-D9A52079EA9C}
 		{C6A07D89-D6CF-4777-84DB-2B3F1BD8E133} = {93C3B584-F701-4425-BEC4-ABB6F2E998BE}
 		{8A346291-D690-4831-847D-DBB9D767A598} = {488324A6-8D1F-411D-9B4D-D9A52079EA9C}
+		{3A90A6AE-0D69-4A1F-8565-26695CA9E6B8} = {93C3B584-F701-4425-BEC4-ABB6F2E998BE}
+		{08DCE4D0-AF29-4CB3-BD07-F9581B8709C3} = {93C3B584-F701-4425-BEC4-ABB6F2E998BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7162AF8-B4C3-40DA-A600-2FFACA908430}
